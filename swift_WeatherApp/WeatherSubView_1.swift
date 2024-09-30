@@ -8,11 +8,31 @@
 import SwiftUI
 
 struct WeatherSubView_1: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+   
+   let day : String
+   let imageName : String
+   let temperature : Int
+
+   var body: some View {
+        VStack {
+            Text(day)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(.white)
+            
+            Image(systemName: imageName)
+                .symbolRenderingMode(.palette)
+                .resizable()
+                .foregroundStyle(.white, .yellow, Color("lightblue"))
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+            
+            Text("\(temperature)°")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.white)
+        }
+   }
 }
 
 #Preview {
-    WeatherSubView_1()
+    WeatherSubView_1(day: "WED", imageName: "cloud.sun.rain", temperature: 5)
 }

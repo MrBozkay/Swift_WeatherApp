@@ -8,11 +8,30 @@
 import SwiftUI
 
 struct WeatherSubView: View {
+    var day: WeatherDay
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text(day.dayOfWeek)
+                .font(.system(size: 16, weight: .medium))
+                .foregroundStyle(.white)
+            
+            Image(systemName: day.imageName)
+                .symbolRenderingMode(.palette)
+                .resizable()
+                .foregroundStyle(.white, .yellow, Color("lightblue"))
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 40, height: 40)
+            
+            Text("\(day.temperature ?? 56)°")
+                .font(.system(size: 16, weight: .medium))
+                .foregroundColor(.white)
+        }
     }
 }
 
-#Preview {
-    WeatherSubView()
-}
+//let Weatherday: WeatherDay = WeatherDay(dayOfWeek: "MON", imageName: "cloud.sun.fill", temperature: 64)
+//
+//#Preview {
+//    WeatherSubView(day: Weatherday)
+//}

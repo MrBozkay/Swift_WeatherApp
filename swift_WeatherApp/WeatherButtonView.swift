@@ -10,7 +10,7 @@ import SwiftUI
 
 // Update WeatherButtonView to accept an optional action
 struct WeatherButtonView: View {
-    var cityname: String
+    var text: String
     var bcolor: Color
     var textcolor: Color
     var isNight: Binding<Bool>? = nil
@@ -23,7 +23,7 @@ struct WeatherButtonView: View {
             }
             action?()
         } label: {
-            Text(cityname)
+            Text(text)
                 .frame(width: 280, height: 50)
                 .background(bcolor)
                 .foregroundColor(textcolor)

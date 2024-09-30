@@ -7,12 +7,31 @@
 
 import SwiftUI
 
+
 struct WeeklyForecastView: View {
+    var weeklyForecast: [WeatherDay]
+    @Binding var selectedDay: WeatherDay?
+    
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 5) {
+                ForEach(weeklyForecast) { day in
+                    WeatherDayView(day: day, isSelected: day.id == selectedDay?.id)
+                        .onTapGesture {
+                            withAnimation {
+                                selectedDay = day
+                            }
+                        }
+                }
+            }
+            .padding(.all)
+            .background(Color.gray.opacity(0.2))
+        }
     }
 }
 
-#Preview {
-    WeeklyForecastView()
-}
+//#Preview {
+//    WeeklyForecastView(weeklyForecast: WeatherData().weeklyForecast,selectedDay: Binding<WeatherDay?>)
+//}
+
