@@ -30,8 +30,8 @@ struct WeatherSubView: View {
     }
 }
 
-let Weatherday: WeatherDay = WeatherDay(dayOfWeek: "MON", imageName: "cloud.sun.fill", temperature: 64)
-
-#Preview {
-    WeatherSubView(day: Weatherday)
-}
+//let Weatherday: WeatherDay = WeatherDay(dayOfWeek: "MON", imageName: "cloud.sun.fill", temperature: 64)
+//
+//#Preview {
+//    WeatherSubView(day: Weatherday)
+//}
