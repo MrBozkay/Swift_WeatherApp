@@ -14,8 +14,11 @@ struct BackgroundView: View {
     let isNight: Bool
     
     var body: some View {
-        LinearGradient(gradient: Gradient(colors: isNight ? [Color.blue, Color.white] : [Color.black, Color.gray]), startPoint: .topLeading, endPoint: .bottom)
-            .ignoresSafeArea()
+        LinearGradient(gradient: Gradient(colors: [
+            isNight ? .black : .blue,
+            isNight ? .gray : Color("lightblue")
+        ]), startPoint: .topLeading, endPoint: .bottomTrailing)
+        .ignoresSafeArea()
 
 /*         after ios 16+
  ContainerRelativeShape()

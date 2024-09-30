@@ -9,21 +9,20 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var weatherService = WeatherService()
-    @State private var isNight = true
     @State private var cityName = "Santa Cruz, CA"
     @State private var showDetails = false
     @State private var selectedDay: WeatherDay?
     
     var body: some View {
         ZStack {
-            BackgroundView(isNight: isNight)
+            BackgroundView(isNight: selectedDay?.isNight ?? false)
             
              ScrollView {
                 VStack(spacing: 10) {
                     HeaderContentView(cityname: cityName)
                     
                     if let displayWeather = selectedDay ?? weatherService.currentWeather {
-                        MainContentView(day: displayWeather, isNight: isNight)
+                        MainContentView(day: displayWeather)
                             .onTapGesture {
                                 withAnimation {
                                     showDetails.toggle()
@@ -43,7 +42,7 @@ struct ContentView: View {
                         ProgressView()
                     }
                     
-                    
+                    Spacer()
                     
                     HStack {
                         TextField("Enter city name", text: $cityName)
@@ -67,15 +66,9 @@ struct ContentView: View {
                                 .clipShape(Circle())
                         }
                         .shadow(color: Color.black.opacity(0.3), radius: 5, x: 2, y: 2)
+                       
                     }
                     .padding()
-                    
-                    WeatherButtonView(
-                        text: "Night Mode",
-                        bcolor: .mint,
-                        textcolor: .white,
-                        action: { isNight.toggle() }
-                    )
                 }
                 .padding()
             }
@@ -88,27 +81,6 @@ struct ContentView: View {
 
 
 
-
-struct WeatherDetailsView: View {
-    var day: WeatherDay
-    
-    var body: some View {
-        VStack(alignment: .leading, spacing: 10) {
-            if let precipitation = day.precipitation {
-                DetailRow(title: "Precipitation", value: "\(precipitation)%")
-            }
-            if let humidity = day.humidity {
-                DetailRow(title: "Humidity", value: "\(humidity)%")
-            }
-            if let windSpeed = day.windSpeed {
-                DetailRow(title: "Wind Speed", value: "\(windSpeed) mph")
-            }
-        }
-        .padding()
-        .background(Color.black.opacity(0.1))
-        .cornerRadius(15)
-    }
-}
 
 struct DetailRow: View {
     var title: String
@@ -125,40 +97,6 @@ struct DetailRow: View {
     }
 }
 
-
-
-struct WeatherDayView: View {
-    var day: WeatherDay
-    var isSelected: Bool
-    
-    var body: some View {
-        VStack {
-            Text(day.dayOfWeek)
-                .font(.system(size: 16, weight: .medium))
-                .foregroundColor(isSelected ? .yellow : .white)
-            
-            Image(systemName: day.imageName)
-                .symbolRenderingMode(.multicolor)
-                .resizable()
-                .aspectRatio(contentMode: .fit)
-                .frame(width: 40, height: 40)
-            
-            if let temperature = day.temperature {
-                Text("\(temperature)°")
-                    .font(.system(size: 16, weight: .medium))
-                    .foregroundColor(isSelected ? .yellow : .white)
-            }
-        }
-        .padding()
-        .background(isSelected ? Color.white.opacity(0.2) : Color.clear)
-        .cornerRadius(10)
-    }
-}
-
-// ... (keep HeaderView, BackgroundView, and WeatherButtonView unchanged)
-
 #Preview {
     ContentView()
 }
-
-

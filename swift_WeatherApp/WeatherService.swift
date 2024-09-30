@@ -12,7 +12,7 @@ class WeatherService: ObservableObject {
     private let baseURL = "https://api.open-meteo.com/v1/forecast"
     
     @Published var currentWeather: WeatherDay?
-    @Published var weeklyForecast: [WeatherDay] = []
+    @Published var weeklyForecast: [String: [WeatherDay]] = ["day": [], "night": []]
     @Published var error: String?
     
     func fetchWeather(for city: String) {
@@ -89,12 +89,11 @@ class WeatherService: ObservableObject {
         
     }
     
-    private func createWeeklyForecast(from response: OpenMeteoResponse) -> [WeatherDay] {
-        var forecast: [WeatherDay] = []
+    private func createWeeklyForecast(from response: OpenMeteoResponse) -> [String: [WeatherDay]] {
+        var forecast: [String: [WeatherDay]] = ["day": [], "night": []] // Initialize dictionary with empty arrays
         let dailyData = response.daily
         print("daily data : \(dailyData)")
         let days = min(dailyData.time.count, 7) // Ensure we don't exceed array bounds
-        
         
         // Use the current weather code for the daily forecast
         let currentWeatherCode = response.current_weather.weathercode
@@ -111,7 +110,7 @@ class WeatherService: ObservableObject {
                 windSpeed: nil,
                 isNight: false
             )
-            forecast.append(dayWeather)
+            forecast["day"]?.append(dayWeather) // Append to the "day" array
             
             // Add night weather
             let nightWeather = WeatherDay(
@@ -125,7 +124,7 @@ class WeatherService: ObservableObject {
                 windSpeed: nil,
                 isNight: true
             )
-            forecast.append(nightWeather)
+            forecast["night"]?.append(nightWeather) // Append to the "night" array
         }
         
         return forecast
@@ -236,6 +235,7 @@ struct DailyForecast: Codable {
 }
 
 struct ISO8601Date: Codable {
+
     let date: Date
     
     init(from decoder: Decoder) throws {
